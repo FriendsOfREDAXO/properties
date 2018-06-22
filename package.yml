@@ -1,0 +1,18 @@
+package: properties
+version: '1.0.0'
+author: Andreas Eberhard FriendsOfREDAXO
+supportpage: www.redaxo.org/de/forum/
+
+# Durch den Eintrag load: early werden die Properties auch für (fast) alle Addons verfügbar
+# load: early
+
+page:
+    title: translate:properties
+    perm: admin[]
+    pjax: true
+
+pages:
+    system/properties: { title: 'translate:properties' }
+
+requires:
+    redaxo: '^5.0'
