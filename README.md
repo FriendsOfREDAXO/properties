@@ -1,12 +1,17 @@
 
-## Properties für Templates und Module
+# REDAXO-Properties für Templates und Module
 
 Hier können REDAXO-Properties gesetzt werden die man in Templates und Modulen verwenden kann.
 Unter dem Menüpunkt **System** können die Properties verwaltet werden.
 
+Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer** Stelle gepflegt und dann in Templates/Modulen verwendet werden.
+
 ### Formatierung
 
-Format: `propertyName = Inhalt`
+Die Formatierung für die Properties ist angelehnt an die bekannten language-Files von Addons.
+Die Properties werden in der Addon-Konfiguration gespeichert und werden bei einem REDAXO-Export auch exportiert.
+
+**Zeilen-Format**: `propertyName = Inhalt`
 
 * jede Property-Einstellung in einer Zeile
 * ein Leerzeichen vor und nach dem Istgleich-Zeichen
@@ -27,6 +32,20 @@ $value = rex::getProperty('HalloText');
 
 // Zugriff auf Properties mit gesetztem PREFIX = my_
 $value = rex::getProperty('my_HalloText');
+```
+
+## Beispiel für Property-Einstellungen
+
+```
+# Einstellungen für den News-Bereich
+PREFIX = news_
+newsListLimit = 10       # Anzahl Teaser-Einträge für die Startseite   rex::getProperty('news_newsListLimit')
+newsDetailArticle = 123  # Artikel-ID für die News-Anzeige
+
+# Diverse Artikel-ID's
+PREFIX = id_
+idSearch = 123           # Artikel-ID für die Suche                    rex::getProperty('id_idSearch')
+idBasket = 456           # Artikel-ID für den Warenkorb
 ```
 
 ## Anwendungs-Beispiel
@@ -73,7 +92,9 @@ if (count($_imagelist) < rex::getProperty('meinProjekt_beMinimumGalleryPics')) {
 ...
 ```
 
-## Empfehlungen
+## Empfehlungen / Sonstiges
 
 * PREFIX setzen!
 * Properties im CamelCase notieren -> https://en.wikipedia.org/wiki/Camel_case
+* Es sind auch mehrere PREFIXe zur Gruppierung von Properties möglich
+* Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen Addons verfügbar
