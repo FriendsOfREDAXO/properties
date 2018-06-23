@@ -26,7 +26,7 @@ Die Properties werden hier immer **ohne** den Prefix notiert z.B. `HalloText = S
 
 ### Verwendung im Template / Modul
 
-```
+```php
 // Zugriff auf Properties ohne gesetztem PREFIX
 $value = rex::getProperty('HalloText');
 
@@ -36,7 +36,7 @@ $value = rex::getProperty('my_HalloText');
 
 ## Beispiel für Property-Einstellungen
 
-```
+```ini
 # Einstellungen für den News-Bereich
 PREFIX = news_
 newsListLimit = 10       # Anzahl Teaser-Einträge für die Startseite   rex::getProperty('news_newsListLimit')
@@ -54,14 +54,14 @@ Für ein Galerie-Modul müssen mindestens 3 Bilder ausgewählt werden.
 
 **Property-Einstellungen**
 
-```
+```ini
 PREFIX = meinProjekt_
 beMinimumGalleryPics = 3
 ```
 
 **Modul-Input**
 
-```
+```php
 <?php
 // Hinweis im Edit-Modus (am Modul-Anfang)
 $_imagelist = explode(',', "REX_MEDIALIST[1]");
@@ -77,7 +77,7 @@ if (rex_request('save', 'string', '') == '1') {
 
 **Modul-Output**
 
-```
+```php
 <?php
 // Hinweis nur im Backend (am Modul-Anfang), im Frontend keine Ausgabe
 $_imagelist = explode(',', "REX_MEDIALIST[1]");
