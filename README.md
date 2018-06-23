@@ -1,7 +1,7 @@
 
 # REDAXO-Properties für Templates und Module
 
-Hier können REDAXO-Properties gesetzt werden die man in Templates und Modulen verwenden kann.
+Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates und Modulen verwenden kann.
 Unter dem Menüpunkt **System** können die Properties verwaltet werden.
 
 Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer** Stelle gepflegt und dann in Templates/Modulen verwendet werden.
