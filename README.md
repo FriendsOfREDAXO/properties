@@ -1,11 +1,7 @@
 
 # REDAXO-Properties für Templates und Module
 
-<<<<<<< HEAD
 Hier können REDAXO-Properties gesetzt werden die man in Templates und Modulen verwenden kann. Die Properties sind im Backend und Frontend verfügbar. Siehe auch https://redaxo.org/doku/master/eigenschaften#rex-klasse
-=======
-Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates und Modulen verwenden kann.
->>>>>>> 10fac0855a0dbbdb6fd55c6f509adf0b114b2884
 Unter dem Menüpunkt **System** können die Properties verwaltet werden.
 
 Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer** Stelle gepflegt und dann in Templates/Modulen verwendet werden.
@@ -69,7 +65,7 @@ basket = 456         # Artikel-ID für den Warenkorb                rex::getProp
 
 oder alternativ mit Sections statt PREFIX
 
-```
+```ini
 # Einstellungen für den News-Bereich
 [news_]
 listLimit = 10       # Anzahl Teaser-Einträge für die Startseite   rex::getProperty('news_listLimit')
@@ -87,8 +83,7 @@ Für ein Galerie-Modul müssen mindestens 3 Bilder ausgewählt werden.
 
 **Property-Einstellungen**
 
-<<<<<<< HEAD
-```
+```ini
 # Backend-Properties
 PREFIX = be_
 minimumGalleryPics = 3
@@ -96,11 +91,6 @@ minimumGalleryPics = 3
 # Frontend-Properties
 PREFIX = fe_
 ...
-=======
-```ini
-PREFIX = meinProjekt_
-beMinimumGalleryPics = 3
->>>>>>> 10fac0855a0dbbdb6fd55c6f509adf0b114b2884
 ```
 
 **Modul-Input**
@@ -140,10 +130,5 @@ if (count($_imagelist) < rex::getProperty('be_minimumGalleryPics')) {
 
 * PREFIX= oder [Section] setzen!
 * Properties im CamelCase notieren -> https://en.wikipedia.org/wiki/Camel_case
-<<<<<<< HEAD
 * Es sind auch mehrere PREFIXe/Sections zur Gruppierung von Properties möglich
 * Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen Addons verfügbar
-=======
-* Es sind auch mehrere PREFIXe zur Gruppierung von Properties möglich
-* Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen Addons verfügbar
->>>>>>> 10fac0855a0dbbdb6fd55c6f509adf0b114b2884
