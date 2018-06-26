@@ -1,7 +1,11 @@
 
 # REDAXO-Properties für Templates und Module
 
+<<<<<<< HEAD
 Hier können REDAXO-Properties gesetzt werden die man in Templates und Modulen verwenden kann. Die Properties sind im Backend und Frontend verfügbar. Siehe auch https://redaxo.org/doku/master/eigenschaften#rex-klasse
+=======
+Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates und Modulen verwenden kann.
+>>>>>>> 10fac0855a0dbbdb6fd55c6f509adf0b114b2884
 Unter dem Menüpunkt **System** können die Properties verwaltet werden.
 
 Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer** Stelle gepflegt und dann in Templates/Modulen verwendet werden.
@@ -34,7 +38,7 @@ Die Properties werden hier **immer ohne** den Prefix/Section notiert z.B. `Hallo
 
 ### Verwendung im Template / Modul
 
-```
+```php
 // Zugriff auf Properties ohne gesetztem PREFIX
 $value = rex::getProperty('HalloText');
 
@@ -51,7 +55,7 @@ REX_PROPERTY[key=my_HalloText]
 
 ## Beispiel für Property-Einstellungen
 
-```
+```ini
 # Einstellungen für den News-Bereich
 PREFIX = news_
 listLimit = 10       # Anzahl Teaser-Einträge für die Startseite   rex::getProperty('news_listLimit')
@@ -83,6 +87,7 @@ Für ein Galerie-Modul müssen mindestens 3 Bilder ausgewählt werden.
 
 **Property-Einstellungen**
 
+<<<<<<< HEAD
 ```
 # Backend-Properties
 PREFIX = be_
@@ -91,11 +96,16 @@ minimumGalleryPics = 3
 # Frontend-Properties
 PREFIX = fe_
 ...
+=======
+```ini
+PREFIX = meinProjekt_
+beMinimumGalleryPics = 3
+>>>>>>> 10fac0855a0dbbdb6fd55c6f509adf0b114b2884
 ```
 
 **Modul-Input**
 
-```
+```php
 <?php
 // Hinweis im Edit-Modus (am Modul-Anfang)
 $_imagelist = explode(',', "REX_MEDIALIST[1]");
@@ -111,7 +121,7 @@ if (rex_request('save', 'string', '') == '1') {
 
 **Modul-Output**
 
-```
+```php
 <?php
 // Hinweis nur im Backend (am Modul-Anfang), im Frontend keine Ausgabe
 $_imagelist = explode(',', "REX_MEDIALIST[1]");
@@ -130,5 +140,10 @@ if (count($_imagelist) < rex::getProperty('be_minimumGalleryPics')) {
 
 * PREFIX= oder [Section] setzen!
 * Properties im CamelCase notieren -> https://en.wikipedia.org/wiki/Camel_case
+<<<<<<< HEAD
 * Es sind auch mehrere PREFIXe/Sections zur Gruppierung von Properties möglich
 * Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen Addons verfügbar
+=======
+* Es sind auch mehrere PREFIXe zur Gruppierung von Properties möglich
+* Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen Addons verfügbar
+>>>>>>> 10fac0855a0dbbdb6fd55c6f509adf0b114b2884
