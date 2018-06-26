@@ -11,7 +11,6 @@ $csrfToken = rex_csrf_token::factory('properties_properties');
 if ($func == 'update' && !$csrfToken->isValid()) {
     echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
 } elseif ($func == 'update') {
-
     $this->setConfig(rex_post('settings', [
         ['properties_settings', 'string'],
     ]));
@@ -23,9 +22,45 @@ if ($func == 'update' && !$csrfToken->isValid()) {
 $Values = [];
 $Values['properties_settings'] = $this->getConfig('properties_settings');
 
+// Check der Properties und evtl. Warning ausgeben
+$_settings_array = explode("\n", str_replace("\r", '', $Values['properties_settings']));
+
+$_prefix = '';
+$_msg = [];
+$_duplicate = [];
+
+foreach ($_settings_array as $_lc => $_line) {
+    $_line = trim($_line);
+    if (substr($_line, 0, 1) != '#') { // Kommentarzeilen übergehen
+
+        $_work = explode('#', $_line); // wg. Inline-Kommentaren
+        $_set = explode('=', $_work[0]);
+
+        // [Section] als Prefix
+        if (substr($_line, 0, 1) == '[' && substr($_line, -1) == ']') {
+            $_prefix = trim(substr($_line, 1, -1));
+        }
+        // Prefix
+        if (trim($_set[0]) == 'PREFIX') {
+            $_prefix = trim($_set[1]);
+        }
+
+        if (count($_set) === 2) {
+            if (rex::hasProperty($_prefix . trim($_set[0])) || isset($_duplicate[$_prefix . trim($_set[0])])) {
+                $_msg[] = 'Zeile ' . ($_lc+1) . ': ' . trim($_set[0]) . ' = ' . trim($_set[1]) . ' (Section/PREFIX=' .$_prefix . ')';
+            }
+            $_duplicate[$_prefix . trim($_set[0])] = true;
+        }
+    }
+}
+
+if (count($_msg) > 0) {
+    echo rex_view::warning('<strong>' . $this->i18n('config_warning') . '</strong><br>' . implode('<br>', $_msg));
+}
+
+// Formular-Ausgabe
 $content .= '<fieldset><legend>' . $this->i18n('config_title_legend') . '</legend>';
 
-// properties_settings
 $formElements = [];
 $n = [];
 
