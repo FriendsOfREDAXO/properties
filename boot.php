@@ -6,7 +6,7 @@ $_settings_array = explode("\n", str_replace("\r", '', $this->getConfig('propert
 
 $_prefix = '';
 
-if (rex_be_controller::getCurrentPagePart(2) != 'properties') {
+if (rex_be_controller::getCurrentPagePart(1) != 'properties' && rex_be_controller::getCurrentPagePart(2) != 'properties') {
     foreach ($_settings_array as $_lc => $_line) {
         $_line = trim($_line);
         if (substr($_line, 0, 1) != '#') { // Kommentarzeilen übergehen

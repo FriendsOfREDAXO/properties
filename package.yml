@@ -7,10 +7,12 @@ supportpage: www.redaxo.org/de/forum/
 # load: early
 
 page:
-    title: translate:properties
+    # title auskommentieren um einen eigenen Haupt-Menüpunkt zu erhalten
+    # title: translate:properties
     perm: admin[]
     pjax: true
 
+# pages als Kommentar setzen wenn page: title gesetzt ist für eigenen Haupt-Menüpunkt
 pages:
     system/properties: { title: 'translate:properties' }
 
