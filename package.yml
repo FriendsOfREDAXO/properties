@@ -17,4 +17,4 @@ pages:
     system/properties: { title: 'translate:properties' }
 
 requires:
-    redaxo: '^5.0'
+    redaxo: '^5.5.0'
