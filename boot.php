@@ -11,7 +11,7 @@ if (rex_be_controller::getCurrentPagePart(1) != 'properties' && rex_be_controlle
         $_line = trim($_line);
         if (substr($_line, 0, 1) != '#') { // Kommentarzeilen übergehen
 
-            $_work = explode('#', $_line); // wg. Inline-Kommentaren
+            $_work = explode(' # ', $_line); // wg. Inline-Kommentaren
             $_set = explode('=', $_work[0]);
 
             // [Section] als Prefix
