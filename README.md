@@ -19,7 +19,9 @@ oder
 
 * jede Property-Einstellung in einer Zeile
 * Kommentare beginnen mit '#' am Zeilenanfang
-* Inline-Kommentare mit '#' möglich
+* Inline-Kommentare mit '#' möglich (ein Leerzeichen vor und nach dem #!)
+* automatisches Type-Casting
+* JSON-Properties möglich
 
 > **Hinweis:**
 Bereits bestehende REDAXO-Properties werden nicht überschrieben!
@@ -32,17 +34,41 @@ Zum Beispiel: `[my_]`
 
 Die Properties werden hier **immer ohne** den Prefix/Section notiert z.B. `HalloText = Servus Welt!` und nur der Zugriff über `rex::getProperty` muss bei gesetztem `PREFIX = my_` oder bei gesetzer Section `[my_]` **mit** dem Prefix erfolgen, also `rex::getProperty('my_HalloText');`.
 
+### Type-Casting
+
+Hier definierte Properties werden automatisch in den entsprechenden Variablen-Typ gecasted.
+
+**Beispiele**
+
+```ini
+property = Text -> (string) Text
+property = 1 -> (integer) 1
+property = 1.0 -> (float) 1
+property = 1,2 -> (float) 1.2
+property = 1.2-> (float) 1.2
+property = "asdf" -> (string) asdf
+property = '"asdf"' -> (string) "asdf"
+property = true -> (boolean) true
+propery = FALSE -> (boolean) false
+property = {"erstens": 1, "zweitens": 2} -> array(2) { ["erstens"]=> int(1) ["zweitens"]=> int(2) }
+```
+
+> **Hinweis:**
+JSON-Properties müssen im gültigen JSON-Format notiert werden!
+
 ### Verwendung im Template / Modul
 
 ```php
-// Zugriff auf Properties ohne gesetztem PREFIX
+// Zugriff auf Properties ohne gesetztem PREFIX/Section
 $value = rex::getProperty('HalloText');
 
-// Zugriff auf Properties mit gesetztem PREFIX = my_
+// Zugriff auf Properties mit gesetztem PREFIX = my_ / Section [my_]
 $value = rex::getProperty('my_HalloText');
 ```
 
 Alternativ zur PHP-Schreibweise kann auch folgende Schreibweise in Templates und Modulen verwendet werden.
+> **Hinweis:**
+Funktioniert nicht bei Properties im JSON-Format!
 
 ```
 REX_PROPERTY[key=HalloText]
@@ -50,6 +76,8 @@ REX_PROPERTY[key=my_HalloText]
 ```
 
 ## Beispiel für Property-Einstellungen
+
+Mit gesetztem Prefix ...
 
 ```ini
 # Einstellungen für den News-Bereich

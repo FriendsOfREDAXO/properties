@@ -1,5 +1,49 @@
 <?php
 
+// Cast string to type
+function propertiesCastToType($value)
+{
+    $value = trim($value);
+    $rc = (string) $value;
+    $casted = false;
+
+    // bool
+    if (strtolower($value) == 'true' or strtolower($value) == 'false') {
+        $rc = strtolower($value) == 'true' ? (bool) true : (bool) false;
+        $casted = true;
+    }
+
+    // integer
+    if (!$casted && preg_match("/^\d+$/", $value)) {
+        $rc = (int) $value;
+        $casted = true;
+    }
+
+    // float
+    if (!$casted && preg_match("/^\d+(\.\d{1,2})?/", $value)) {
+        $rc = (float) $value;
+        $casted = true;
+    }
+
+    // string
+    if (!$casted && $value[0] == '"' && $value[strlen($value)-1] == '"') {
+        $rc = (string) substr($value, 1, -1);
+        $casted = true;
+    }
+    if (!$casted && $value[0] == "'" && $value[strlen($value)-1] == "'") {
+        $rc = (string) substr($value, 1, -1);
+        $casted = true;
+    }
+
+    // json
+    if (!$casted && $value[0] == '{' && $value[strlen($value)-1] == '}') {
+        $rc = json_decode($value, true);
+        $casted = true;
+    }
+
+    return $rc;
+}
+
 // REDAXO-Properties setzen
 
 $_settings_array = explode("\n", str_replace("\r", '', $this->getConfig('properties_settings')));
@@ -25,7 +69,7 @@ if (rex_be_controller::getCurrentPagePart(1) != 'properties' && rex_be_controlle
 
             if (count($_set) === 2) {
                 if (!rex::hasProperty($_prefix . trim($_set[0]))) {
-                    rex::setProperty($_prefix . trim($_set[0]), trim($_set[1]));
+                    rex::setProperty($_prefix . trim($_set[0]), propertiesCastToType($_set[1]));
                 }
             }
         }
