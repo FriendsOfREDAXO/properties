@@ -90,7 +90,7 @@ $formElements = [];
 $n = [];
 
 $n['label'] = '<label for="properties_settings">' . htmlspecialchars_decode($this->i18n('config_properties_settings')) . '</label>';
-$n['field'] = '<textarea class="form-control rex-code" data-codemirror-mode="text/x-ini" rows="25" id="properties_settings" name="settings[properties_settings]">' . $Values['properties_settings'] . '</textarea>';
+$n['field'] = '<textarea class="form-control codemirror" data-codemirror-mode="text/x-ini" rows="25" id="properties_settings" name="settings[properties_settings]">' . $Values['properties_settings'] . '</textarea>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
