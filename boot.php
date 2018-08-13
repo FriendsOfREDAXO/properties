@@ -61,15 +61,24 @@ if (rex_be_controller::getCurrentPagePart(1) != 'properties' && rex_be_controlle
             // [Section] als Prefix
             if (substr($_line, 0, 1) == '[' && substr($_line, -1) == ']') {
                 $_prefix = trim(substr($_line, 1, -1));
+                continue;
             }
             // Prefix
             if (trim($_set[0]) == 'PREFIX') {
                 $_prefix = trim($_set[1]);
+                continue;
             }
 
-            if (count($_set) === 2) {
-                if (!rex::hasProperty($_prefix . trim($_set[0]))) {
-                    rex::setProperty($_prefix . trim($_set[0]), propertiesCastToType($_set[1]));
+            // Set Property
+            if (count($_set) > 1) {
+                $_key = trim($_set[0]);
+                $_val = trim($_set[1]);
+                if (!rex::hasProperty($_prefix . $_key)) {
+                    if (count($_set) > 2) {
+                        unset($_set[0]);
+                        $_val = trim(implode('=', $_set));
+                    }
+                    rex::setProperty($_prefix . $_key, propertiesCastToType($_val));
                 }
             }
         }

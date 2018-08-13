@@ -39,17 +39,26 @@ foreach ($_settings_array as $_lc => $_line) {
         // [Section] als Prefix
         if (substr($_line, 0, 1) == '[' && substr($_line, -1) == ']') {
             $_prefix = trim(substr($_line, 1, -1));
+            continue;
         }
         // Prefix
         if (trim($_set[0]) == 'PREFIX') {
             $_prefix = trim($_set[1]);
+            continue;
         }
 
-        if (count($_set) === 2) {
-            if (rex::hasProperty($_prefix . trim($_set[0])) || isset($_duplicate[$_prefix . trim($_set[0])])) {
-                $_msg[] = 'Zeile ' . ($_lc+1) . ': ' . trim($_set[0]) . ' = ' . trim($_set[1]) . ' (Section/PREFIX=' .$_prefix . ')';
+        // Check Property
+        if (count($_set) > 1) {
+            $_key = trim($_set[0]);
+            $_val = trim($_set[1]);
+            if (count($_set) > 2) {
+                unset($_set[0]);
+                $_val = trim(implode('=', $_set));
             }
-            $_duplicate[$_prefix . trim($_set[0])] = true;
+            if (rex::hasProperty($_prefix . $_key) || isset($_duplicate[$_prefix . $_key])) {
+                $_msg[] = 'Zeile ' . ($_lc+1) . ': ' . $_key . ' = ' . htmlspecialchars($_val) . ' (Section/PREFIX=' .$_prefix . ')';
+            }
+            $_duplicate[$_prefix . $_key] = true;
         }
     }
 }
