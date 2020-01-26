@@ -1,12 +1,14 @@
 
 # REDAXO-Properties für Templates und Module
 
-Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates und Modulen verwenden kann. Die Properties sind im Backend und Frontend verfügbar. Siehe auch https://redaxo.org/doku/master/eigenschaften#rex-klasse.
-Unter dem Menüpunkt **System** können die Properties verwaltet werden.
+Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates und Modulen verwenden kann. Die Properties sind im Backend und Frontend verfügbar. Siehe auch https://redaxo.org/doku/master/eigenschaften#set-property.
+Unter dem Menüpunkt **System** können die Properties verwaltet werden (siehe auch package.yml).
 
 Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer** Stelle gepflegt und dann in Templates/Modulen verwendet werden.
 
-### Formatierung
+Es können nur Properties angelegt werden die noch nicht existieren. So werden Kollisionen mit den Core-Properties vermieden.
+
+## Formatierung
 
 Die Formatierung für die Properties ist angelehnt an die bekannten ini-Dateien und die language-Files von REDAXO-Addons, und bewusst einfach gehalten.
 Die Properties werden in der Addon-Konfiguration gespeichert und werden bei einem REDAXO-Export auch exportiert.
@@ -28,81 +30,78 @@ Bereits bestehende REDAXO-Properties werden nicht überschrieben!
 
 > **Hinweis:**
 Properties können durch setzen eines frei wählbaren PREFIXes für die eigene Übersicht gruppiert werden.
-Zum Beispiel: `PREFIX = my_`
+Zum Beispiel: `PREFIX = my.`
 Alternativ kann auch die Section-Schreibweise (ini-Dateien) verwendet werden.
-Zum Beispiel: `[my_]`
+Zum Beispiel: `[my.]`
 
-Die Properties werden hier **immer ohne** den Prefix/Section notiert z.B. `HalloText = Servus Welt!` und nur der Zugriff über `rex::getProperty` muss bei gesetztem `PREFIX = my_` oder bei gesetzer Section `[my_]` **mit** dem Prefix erfolgen, also `rex::getProperty('my_HalloText');`.
+## Type-Casting
 
-### Type-Casting
-
-Hier definierte Properties werden automatisch in den entsprechenden Variablen-Typ gecasted.
+Die definierten Properties werden automatisch in den entsprechenden Variablen-Typ gecasted.
 
 **Beispiele**
 
-```ini
-property = Text -> (string) Text
-property = 1 -> (integer) 1
-property = 1.0 -> (float) 1
-property = 1,2 -> (float) 1.2
-property = 1.2-> (float) 1.2
-property = "asdf" -> (string) asdf
-property = '"asdf"' -> (string) "asdf"
-property = true -> (boolean) true
-propery = FALSE -> (boolean) false
-property = {"erstens": 1, "zweitens": 2} -> array(2) { ["erstens"]=> int(1) ["zweitens"]=> int(2) }
-```
+`property = Text` -> (string) Text
+`property = 1` -> (integer) 1
+`property = 1.0` -> (float) 1
+`property = 1,2` -> (float) 1.2
+`property = 1.2` -> (float) 1.2
+`property = "asdf"` -> (string) asdf
+`property = '"asdf"'` -> (string) "asdf"
+`property = true` -> (boolean) true
+`propery = FALSE` -> (boolean) false
+`property = {"erstens": 1, "zweitens": 2}` -> array(2) { ["erstens"]=> int(1) ["zweitens"]=> int(2) }
 
 > **Hinweis:**
 JSON-Properties müssen im gültigen JSON-Format notiert werden!
 
-### Verwendung im Template / Modul
+## Beispiele für Property-Einstellungen
+
+Mit gesetztem PREFIX ...
+
+```ini
+# Einstellungen für den News-Bereich                                  Zugriff im Modul/Template
+PREFIX = news.
+listLimit = 10       # Anzahl Teaser-Einträge für die Startseite      rex::getProperty('news.listLimit')
+detailArticle = 123  # Artikel-ID für die News-Anzeige                rex::getProperty('news.detailArticle')
+
+# Diverse Artikel-ID's
+PREFIX = id.
+search = 123         # Artikel-ID für die Suche                       rex::getProperty('id.search')
+basket = 456         # Artikel-ID für den Warenkorb                   rex::getProperty('id.basket')
+```
+
+oder alternativ mit Sections statt Prefix ...
+
+```ini
+# Einstellungen für den News-Bereich                                  Zugriff im Modul/Template
+[news.]
+listLimit = 10       # Anzahl Teaser-Einträge für die Startseite      rex::getProperty('news.listLimit')
+detailArticle = 123  # Artikel-ID für die News-Anzeige                rex::getProperty('news.detailArticle')
+
+# Diverse Artikel-ID's
+[id.]
+search = 123         # Artikel-ID für die Suche                       rex::getProperty('id.search')
+basket = 456         # Artikel-ID für den Warenkorb                   rex::getProperty('id.basket')
+```
+
+## Verwendung im Template / Modul
+
+Verwendung der oben definierten Properties im Template oder Modul
 
 ```php
-// Zugriff auf Properties ohne gesetztem PREFIX/Section
-$value = rex::getProperty('HalloText');
+// Zugriff auf Properties mit gesetztem PREFIX = news. / Section [news.]
+$limit = rex::getProperty('news.listLimit');
+$detailArt = 'REX_PROPERTY[news.detailArticle]';
+$detailArt = 'REX_PROPERTY[key=news.detailArticle]';
 
-// Zugriff auf Properties mit gesetztem PREFIX = my_ / Section [my_]
-$value = rex::getProperty('my_HalloText');
 ```
 
 Alternativ zur PHP-Schreibweise kann auch folgende Schreibweise in Templates und Modulen verwendet werden.
-> **Hinweis:**
-Funktioniert nicht bei Properties im JSON-Format!
+*Hinweis: Funktioniert nicht bei Properties im JSON-Format!
 
 ```
-REX_PROPERTY[key=HalloText]
-REX_PROPERTY[key=my_HalloText]
-```
-
-## Beispiel für Property-Einstellungen
-
-Mit gesetztem Prefix ...
-
-```ini
-# Einstellungen für den News-Bereich
-PREFIX = news_
-listLimit = 10       # Anzahl Teaser-Einträge für die Startseite   rex::getProperty('news_listLimit')
-detailArticle = 123  # Artikel-ID für die News-Anzeige             rex::getProperty('news_detailArticle')
-
-# Diverse Artikel-ID's
-PREFIX = id_
-search = 123         # Artikel-ID für die Suche                    rex::getProperty('id_search')
-basket = 456         # Artikel-ID für den Warenkorb                rex::getProperty('id_basket')
-```
-
-oder alternativ mit Sections statt PREFIX
-
-```ini
-# Einstellungen für den News-Bereich
-[news_]
-listLimit = 10       # Anzahl Teaser-Einträge für die Startseite   rex::getProperty('news_listLimit')
-detailArticle = 123  # Artikel-ID für die News-Anzeige             rex::getProperty('news_detailArticle')
-
-# Diverse Artikel-ID's
-[id_]
-search = 123         # Artikel-ID für die Suche                    rex::getProperty('id_search')
-basket = 456         # Artikel-ID für den Warenkorb                rex::getProperty('id_basket')
+REX_PROPERTY[news.listLimit]
+REX_PROPERTY[key=news.listLimit]
 ```
 
 ## Anwendungs-Beispiel
@@ -113,11 +112,11 @@ Für ein Galerie-Modul müssen mindestens 3 Bilder ausgewählt werden.
 
 ```ini
 # Backend-Properties
-PREFIX = be_
+PREFIX = be.
 minimumGalleryPics = 3
 
 # Frontend-Properties
-PREFIX = fe_
+PREFIX = fe.
 ...
 ```
 
@@ -128,12 +127,11 @@ PREFIX = fe_
 // Hinweis im Edit-Modus (am Modul-Anfang)
 $_imagelist = explode(',', "REX_MEDIALIST[1]");
 if (rex_request('save', 'string', '') == '1') {
-    if (count($_imagelist) < rex::getProperty('be_minimumGalleryPics')) {
-        echo rex_view::warning('Achtung! Keine oder zu wenige Bilder ausgewählt (mind. ' . rex::getProperty('be_minimumGalleryPics') . ')! Es erfolgt keine Ausgabe!');
+    if (count($_imagelist) < rex::getProperty('be.minimumGalleryPics')) {
+        echo rex_view::warning('Achtung! Keine oder zu wenige Bilder ausgewählt (mind. ' . rex::getProperty('be.minimumGalleryPics') . ')! Es erfolgt keine Ausgabe!');
     }
 }
 ?>
-
 ...
 ```
 
@@ -143,9 +141,9 @@ if (rex_request('save', 'string', '') == '1') {
 <?php
 // Hinweis nur im Backend (am Modul-Anfang), im Frontend keine Ausgabe
 $_imagelist = explode(',', "REX_MEDIALIST[1]");
-if (count($_imagelist) < rex::getProperty('be_minimumGalleryPics')) {
+if (count($_imagelist) < rex::getProperty('be.minimumGalleryPics')) {
     if (rex::isBackend()) {
-        echo rex_view::warning('Achtung! Keine oder zu wenige Bilder ausgewählt (mind. ' . rex::getProperty('be_minimumGalleryPics') . ')! Es erfolgt keine Ausgabe!');
+        echo rex_view::warning('Achtung! Keine oder zu wenige Bilder ausgewählt (mind. ' . rex::getProperty('be.minimumGalleryPics') . ')! Es erfolgt keine Ausgabe!');
     }
     return;
 }

@@ -8,9 +8,9 @@ $func = rex_request('func', 'string');
 $csrfToken = rex_csrf_token::factory('properties_properties');
 
 // Konfiguration speichern
-if ($func == 'update' && !$csrfToken->isValid()) {
+if ('update' == $func && !$csrfToken->isValid()) {
     echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
-} elseif ($func == 'update') {
+} elseif ('update' == $func) {
     $this->setConfig(rex_post('settings', [
         ['properties_settings', 'string'],
     ]));
@@ -29,40 +29,10 @@ $_prefix = '';
 $_msg = [];
 $_duplicate = [];
 
-foreach ($_settings_array as $_lc => $_line) {
-    $_line = trim($_line);
-    if (substr($_line, 0, 1) != '#') { // Kommentarzeilen übergehen
+// Properties setzen
+$_msg = properties_setProperties($_settings_array);
 
-        $_work = explode('#', $_line); // wg. Inline-Kommentaren
-        $_set = explode('=', $_work[0]);
-
-        // [Section] als Prefix
-        if (substr($_line, 0, 1) == '[' && substr($_line, -1) == ']') {
-            $_prefix = trim(substr($_line, 1, -1));
-            continue;
-        }
-        // Prefix
-        if (trim($_set[0]) == 'PREFIX') {
-            $_prefix = trim($_set[1]);
-            continue;
-        }
-
-        // Check Property
-        if (count($_set) > 1) {
-            $_key = trim($_set[0]);
-            $_val = trim($_set[1]);
-            if (count($_set) > 2) {
-                unset($_set[0]);
-                $_val = trim(implode('=', $_set));
-            }
-            if (rex::hasProperty($_prefix . $_key) || isset($_duplicate[$_prefix . $_key])) {
-                $_msg[] = 'Zeile ' . ($_lc+1) . ': ' . $_key . ' = ' . htmlspecialchars($_val) . ' (Section/PREFIX=' .$_prefix . ')';
-            }
-            $_duplicate[$_prefix . $_key] = true;
-        }
-    }
-}
-
+// Fehler ausgeben
 if (count($_msg) > 0) {
     echo rex_view::warning('<strong>' . $this->i18n('config_warning') . '</strong><br>' . implode('<br>', $_msg));
 }

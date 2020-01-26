@@ -4,15 +4,17 @@ author: Andreas Eberhard FriendsOfREDAXO
 supportpage: www.redaxo.org/de/forum/
 
 # Durch den Eintrag load: early werden die Properties auch für (fast) alle Addons verfügbar
+# Einfach die nächste Zeile auskommentieren
 # load: early
 
 page:
-    # title auskommentieren um einen eigenen Haupt-Menüpunkt zu erhalten
+    # Die nächste Zeile 'title' auskommentieren um einen eigenen Haupt-Menüpunkt in der Backend-Navigation zu erhalten
+    # Die Properties sind sonst als Reiter unter 'System' im Backend zu finden
     # title: translate:properties
     perm: admin[]
     pjax: true
 
-# pages als Kommentar setzen wenn page: title gesetzt ist für eigenen Haupt-Menüpunkt
+# Die folgenden zwei Zeilen als Kommentar setzen wenn oben page: title gesetzt ist für einen eigenen Haupt-Menüpunkt
 pages:
     system/properties: { title: 'translate:properties' }
 
