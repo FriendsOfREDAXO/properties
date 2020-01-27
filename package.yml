@@ -1,7 +1,7 @@
 package: properties
 version: '1.2.1'
-author: Andreas Eberhard FriendsOfREDAXO
-supportpage: www.redaxo.org/de/forum/
+author: Friends Of REDAXO
+supportpage: https://github.com/FriendsOfREDAXO/properties
 
 # Durch den Eintrag load: early werden die Properties auch für (fast) alle Addons verfügbar
 # Einfach die nächste Zeile auskommentieren
