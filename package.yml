@@ -19,4 +19,6 @@ pages:
     system/properties: { title: 'translate:properties' }
 
 requires:
-    redaxo: '^5.5.0'
+    redaxo: '^5.8' # benötigt mindestens REDAXO 5.8
+    php:
+        version: '^7.0' # benötigt mindestens PHP 7.0
