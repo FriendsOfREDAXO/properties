@@ -3,9 +3,6 @@
 // Properties setzen
 function properties_setProperties($_settings_array)
 {
-    // TODO: "eigener Namensbereich" aber dann kann nicht mehr über REX_PROPERTY[key=HalloText] REX_PROPERTY[HalloText]
-    // zugegriffen werden sondern über REX_PROPERTY[key=properties.HalloText] REX_PROPERTY[properties.HalloText]
-    //$_setprefix = 'properties.';
     $_setprefix = '';
 
     $_prefix = '';
@@ -52,6 +49,46 @@ function properties_setProperties($_settings_array)
     return $_msg;
 }
 
+// Alle Properties als Array liefern
+function properties_getAllProperties()
+{
+    $addon = rex_addon::get('properties');
+    $_settings_array = explode("\n", str_replace("\r", '', $addon->getConfig('properties_settings')));
+
+    $_prefix = 'no_prefix';
+    $_out = [];
+
+    foreach ($_settings_array as $_lc => $_line) {
+        $_line = trim($_line);
+
+        if ('#' != substr($_line, 0, 1)) { // Kommentarzeilen übergehen
+            $_work = explode(' # ', $_line); // wg. Inline-Kommentaren
+            $_set = explode('=', $_work[0]);
+
+            // [Section] als Prefix
+            if ('[' == substr($_line, 0, 1) && ']' == substr($_line, -1)) {
+                $_prefix = trim(substr($_line, 1, -1));
+                continue;
+            }
+
+            // PREFIX = als Prefix
+            if ('PREFIX' == trim($_set[0]) || 'prefix' == trim($_set[0])) {
+                $_prefix = trim($_set[1]);
+                continue;
+            }
+
+            // Set Property
+            if (count($_set) > 1) {
+                $_key = trim($_set[0]);
+                $_val = trim($_set[1]);
+                $_out[$_prefix][$_key] = propertiesCastToType($_val);
+            }
+        }
+    }
+
+    return $_out;
+}
+
 // Cast string to type
 function propertiesCastToType($value)
 {
@@ -72,8 +109,8 @@ function propertiesCastToType($value)
     }
 
     // float
-    if (!$casted && preg_match("/^\d+(\.\d{1,2})?/", $value)) {
-        $rc = (float) $value;
+    if (!$casted && preg_match('/^[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?$/', $value)) {
+        $rc = (float) str_replace(',', '.', $value);
         $casted = true;
     }
 

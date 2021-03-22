@@ -1,5 +1,5 @@
 package: properties
-version: '1.2.1'
+version: "1.2.2"
 author: Friends Of REDAXO
 supportpage: https://github.com/FriendsOfREDAXO/properties
 
@@ -8,17 +8,17 @@ supportpage: https://github.com/FriendsOfREDAXO/properties
 # load: early
 
 page:
-    # Die nächste Zeile 'title' auskommentieren um einen eigenen Haupt-Menüpunkt in der Backend-Navigation zu erhalten
-    # Die Properties sind sonst als Reiter unter 'System' im Backend zu finden
-    # title: translate:properties
-    perm: admin[]
-    pjax: true
+  # Die nächste Zeile 'title' auskommentieren um einen eigenen Haupt-Menüpunkt in der Backend-Navigation zu erhalten
+  # Die Properties sind sonst als Reiter unter 'System' im Backend zu finden
+  # title: translate:properties
+  perm: admin[]
+  pjax: true
 
 # Die folgenden zwei Zeilen als Kommentar setzen wenn oben page: title gesetzt ist für einen eigenen Haupt-Menüpunkt
 pages:
-    system/properties: { title: 'translate:properties' }
+  system/properties: { title: "translate:properties" }
 
 requires:
-    redaxo: '^5.8' # benötigt mindestens REDAXO 5.8
-    php:
-        version: '^7.3' # benötigt mindestens PHP 7.3
+  redaxo: ">=5.8" # benötigt mindestens REDAXO 5.8
+  php:
+    version: ">=7.1" # benötigt mindestens PHP 7.1
