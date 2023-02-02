@@ -1,17 +1,17 @@
 
 # REDAXO-Properties für Templates und Module
 
-Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates und Modulen verwenden kann. Die Properties sind im Backend und Frontend verfügbar. Siehe auch https://redaxo.org/doku/master/eigenschaften#set-property.
-Unter dem Menüpunkt **System** können die Properties verwaltet werden (siehe auch package.yml).
+Hier können REDAXO-Properties gesetzt werden die man zum Beispiel in Templates, Modulen und AddOns verwenden kann. Die Properties sind im Backend und Frontend verfügbar. Siehe auch https://redaxo.org/doku/master/eigenschaften#set-property.
+Unter dem Menüpunkt **System** können die Properties verwaltet werden (siehe auch `package.yml`).
 
-Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer** Stelle gepflegt und dann in Templates/Modulen verwendet werden.
+Oft werden in verschiedenen Templates/Modulen die gleichen Einstellungen wie z.B. bestimmte Artikel-Id's, Anzahl Datensätze usw. benötigt. Durch die Verwendung von Properties können diese Einstellungen (einfach und flexibel) **zentral an einer Stelle** gepflegt und dann in Templates/Modulen/AddOns verwendet werden.
 
-Es können nur Properties angelegt werden die noch nicht existieren. So werden Kollisionen mit den Core-Properties vermieden.
+> **Hinweis:** Es können nur Properties angelegt werden die noch nicht existieren. So werden Kollisionen mit den Core-Properties vermieden.
 
 ## Formatierung
 
-Die Formatierung für die Properties ist angelehnt an die bekannten ini-Dateien und die language-Files von REDAXO-Addons, und bewusst einfach gehalten.
-Die Properties werden in der Addon-Konfiguration gespeichert und werden bei einem REDAXO-Export auch exportiert.
+Die Formatierung für die Properties ist angelehnt an die bekannten ini-Dateien und die language-Files von REDAXO-AddOns, und bewusst einfach gehalten.
+Die Properties werden in der AddOn-Konfiguration gespeichert und werden bei einem REDAXO-Export auch exportiert.
 
 **Zeilen-Format**:
 
@@ -25,11 +25,9 @@ oder
 * automatisches Type-Casting
 * JSON-Properties möglich
 
-> **Hinweis:**
-Bereits bestehende REDAXO-Properties werden nicht überschrieben!
+> **Hinweis:** Bereits bestehende REDAXO-Properties oder Properties aus anderen Addons werden nicht überschrieben!
 
-> **Hinweis:**
-Properties können durch setzen eines frei wählbaren PREFIXes für die eigene Übersicht gruppiert werden.
+> **Hinweis:** Properties können durch setzen eines frei wählbaren PREFIXes für die eigene Übersicht gruppiert werden.
 Zum Beispiel: `PREFIX = my.`
 Alternativ kann auch die Section-Schreibweise (ini-Dateien) verwendet werden.
 Zum Beispiel: `[my.]`
@@ -43,16 +41,15 @@ Die definierten Properties werden automatisch in den entsprechenden Variablen-Ty
 `property = Text` -> (string) Text
 `property = 1` -> (integer) 1
 `property = 1.0` -> (float) 1
-`property = 1,2` -> (float) 1.2
-`property = 1.2` -> (float) 1.2
+`property = 1,234` -> (float) 1.234
+`property = .123` -> (float) 0.123
 `property = "asdf"` -> (string) asdf
 `property = '"asdf"'` -> (string) "asdf"
 `property = true` -> (boolean) true
 `propery = FALSE` -> (boolean) false
 `property = {"erstens": 1, "zweitens": 2}` -> array(2) { ["erstens"]=> int(1) ["zweitens"]=> int(2) }
 
-> **Hinweis:**
-JSON-Properties müssen im gültigen JSON-Format notiert werden!
+> **Hinweis:** JSON-Properties müssen im gültigen JSON-Format notiert werden!
 
 ## Beispiele für Property-Einstellungen
 
@@ -91,13 +88,11 @@ Verwendung der oben definierten Properties im Template oder Modul
 ```php
 // Zugriff auf Properties mit gesetztem PREFIX = news. / Section [news.]
 $limit = rex::getProperty('news.listLimit');
-$detailArt = 'REX_PROPERTY[news.detailArticle]';
-$detailArt = 'REX_PROPERTY[key=news.detailArticle]';
-
 ```
 
-Alternativ zur PHP-Schreibweise kann auch folgende Schreibweise in Templates und Modulen verwendet werden.
-*Hinweis: Funktioniert nicht bei Properties im JSON-Format!
+Alternativ zur PHP-Schreibweise kann auch folgende Schreibweise in Templates verwendet werden.
+
+> **Hinweis:** Funktioniert nicht bei Properties im JSON-Format!
 
 ```
 REX_PROPERTY[news.listLimit]
@@ -157,4 +152,4 @@ if (count($_imagelist) < rex::getProperty('be.minimumGalleryPics')) {
 * PREFIX= oder [Section] setzen!
 * Properties im CamelCase notieren -> https://en.wikipedia.org/wiki/Camel_case
 * Es sind auch mehrere PREFIXe/Sections zur Gruppierung von Properties möglich
-* Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen Addons verfügbar
+* Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen AddOns verfügbar
