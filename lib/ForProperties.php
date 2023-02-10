@@ -8,6 +8,9 @@ use rex;
 use rex_addon;
 use rex_i18n;
 
+use function count;
+use function strlen;
+
 /**
  * ForProperties.
  */
@@ -17,9 +20,7 @@ class ForProperties
     /**
      * Construtor.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Set properties.
@@ -80,11 +81,11 @@ class ForProperties
      * @return array<string, array<string, mixed>>
      * @api
      */
-    public static function getAllProperties()
+    public static function getAllProperties(): array
     {
         $addon = rex_addon::get('properties');
 
-        $_settings_array = explode("\n", str_replace("\r", '', strval($addon->getConfig('properties_settings'))));
+        $_settings_array = explode("\n", str_replace("\r", '', ''.$addon->getConfig('properties_settings')));
 
         $_prefix = 'no_prefix';
         $_out = [];
@@ -131,45 +132,36 @@ class ForProperties
     public static function castToType(string $value)
     {
         $value = trim($value);
-        $rc = $value;
-        $casted = false;
 
         // bool
         if ('true' === strtolower($value) || 'false' === strtolower($value)) {
-            $rc = 'true' === strtolower($value) ? true : false;
-            $casted = true;
+            return 'true' === strtolower($value) ? true : false;
         }
 
-        // integer
-        if (!$casted && 0 !== preg_match('/^\\d+$/', $value)) {
-            $rc = (int) $value;
-            $casted = true;
+        if (1 === preg_match('/^\\d+$/', $value)) {
+            return (int) $value;
         }
 
         // float
-        if (!$casted && 0 !== preg_match('/^[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?$/', $value)) {
-            $rc = (float) str_replace(',', '.', $value);
-            $casted = true;
+        if (1 === preg_match('/^[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?$/', $value)) {
+            return (float) str_replace(',', '.', $value);
         }
 
         // string
         if (isset($value[0]) && strlen($value) >= 2) {
-            if (!$casted && '"' === $value[0] && '"' === $value[strlen($value) - 1]) {
-                $rc = (string) substr($value, 1, -1);
-                $casted = true;
+            if ('"' === $value[0] && '"' === $value[strlen($value) - 1]) {
+                return substr($value, 1, -1);
             }
-            if (!$casted && "'" === $value[0] && "'" === $value[strlen($value) - 1]) {
-                $rc = (string) substr($value, 1, -1);
-                $casted = true;
+            if ("'" === $value[0] && "'" === $value[strlen($value) - 1]) {
+                return substr($value, 1, -1);
             }
 
             // json
-            if (!$casted && '{' === $value[0] && '}' === $value[strlen($value) - 1]) {
-                $rc = json_decode($value, true);
-                $casted = true;
+            if ('{' === $value[0] && '}' === $value[strlen($value) - 1]) {
+                return json_decode($value, true);
             }
         }
 
-        return $rc;
+        return $value;
     }
 }

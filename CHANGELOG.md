@@ -1,5 +1,11 @@
 # properties - Changelog
 
+## Version 1.3.1 - 10.02.2023
+
+* PHP-Code mit aktuellen REDAXO-Coding-Standards überarbeitet (https://friendsofredaxo.github.io/tricks/development/editor-vscode)
+  * `ForProperties::castToType()` überarbeitet
+* removed .php-cs-fixer.dist.php
+
 ## Version 1.3.0 - 02.02.2023
 
 ### Features

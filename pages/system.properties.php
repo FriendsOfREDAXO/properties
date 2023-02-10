@@ -14,6 +14,8 @@ use rex_path;
 use rex_url;
 use rex_view;
 
+use function count;
+
 $addon = rex_addon::get('properties');
 
 $content = '';
@@ -39,7 +41,7 @@ $Values = [];
 $Values['properties_settings'] = $addon->getConfig('properties_settings');
 
 // Check der Properties und evtl. Warning ausgeben
-$_settings_array = explode("\n", str_replace("\r", '', strval($Values['properties_settings'])));
+$_settings_array = explode("\n", str_replace("\r", '', ''.$Values['properties_settings']));
 
 $_prefix = '';
 $_msg = [];
