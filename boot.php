@@ -12,7 +12,12 @@ use rex_be_controller;
 $addon = rex_addon::get('properties');
 
 $_settings_array = explode("\n", str_replace("\r", '', ''.$addon->getConfig('properties_settings', '')));
-
-if ('properties' !== rex_be_controller::getCurrentPagePart(1) && 'properties' !== rex_be_controller::getCurrentPagePart(2)) {
-    ForProperties::setProperties($_settings_array);
+if ('properties' === rex_be_controller::getCurrentPagePart(1)) {
+    return;
 }
+
+if ('properties' === rex_be_controller::getCurrentPagePart(2)) {
+    return;
+}
+
+ForProperties::setProperties($_settings_array);

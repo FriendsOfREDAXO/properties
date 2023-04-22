@@ -14,8 +14,6 @@ use rex_path;
 use rex_url;
 use rex_view;
 
-use function count;
-
 $addon = rex_addon::get('properties');
 
 $content = '';
@@ -51,7 +49,7 @@ $_duplicate = [];
 $_msg = ForProperties::setProperties($_settings_array);
 
 // Fehler ausgeben
-if (count($_msg) > 0) {
+if ([] !== $_msg) {
     echo rex_view::warning('<strong>' . $addon->i18n('config_warning') . '</strong><br>' . implode('<br>', $_msg));
 }
 

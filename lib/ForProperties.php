@@ -15,12 +15,10 @@ use function strlen;
  * ForProperties.
  */
 
-class ForProperties
+final class ForProperties
 {
-    /**
-     * Construtor.
-     */
-    public function __construct() {}
+    /** @var string */
+    private const SETPREFIX = '';
 
     /**
      * Set properties.
@@ -30,8 +28,6 @@ class ForProperties
      */
     public static function setProperties(array $_settings_array): array
     {
-        $_setprefix = '';
-
         $_prefix = '';
         $_msg = [];
         $_duplicate = [];
@@ -59,16 +55,18 @@ class ForProperties
                 if (count($_set) > 1) {
                     $_key = trim($_set[0]);
                     $_val = trim($_set[1]);
-                    if (!rex::hasProperty($_prefix . $_key) && !rex::hasProperty($_setprefix . $_prefix . $_key) && !isset($_duplicate[$_setprefix . $_prefix . $_key])) {
+                    if (!rex::hasProperty($_prefix . $_key) && !rex::hasProperty(self::SETPREFIX . $_prefix . $_key) && !isset($_duplicate[self::SETPREFIX . $_prefix . $_key])) {
                         if (count($_set) > 2) {
                             unset($_set[0]);
                             $_val = trim(implode('=', $_set));
                         }
-                        rex::setProperty($_setprefix . $_prefix . $_key, self::castToType($_val));
+
+                        rex::setProperty(self::SETPREFIX . $_prefix . $_key, self::castToType($_val));
                     } else {
                         $_msg[] = rex_i18n::msg('properties_linecount') . ' ' . ((int) $_lc + 1) . ': ' . $_key . ' = ' . htmlspecialchars($_val) . ' (Section/PREFIX = ' .$_prefix . ')';
                     }
-                    $_duplicate[$_setprefix . $_prefix . $_key] = true;
+
+                    $_duplicate[self::SETPREFIX . $_prefix . $_key] = true;
                 }
             }
         }
@@ -90,7 +88,7 @@ class ForProperties
         $_prefix = 'no_prefix';
         $_out = [];
 
-        foreach ($_settings_array as $_lc => $_line) {
+        foreach ($_settings_array as $_line) {
             $_line = trim($_line);
 
             if ('#' === substr($_line, 0, 1)) { // Kommentarzeilen übergehen
@@ -132,10 +130,13 @@ class ForProperties
     public static function castToType(string $value)
     {
         $value = trim($value);
-
         // bool
-        if ('true' === strtolower($value) || 'false' === strtolower($value)) {
-            return 'true' === strtolower($value) ? true : false;
+        if ('true' === strtolower($value)) {
+            return 'true' === strtolower($value);
+        }
+
+        if ('false' === strtolower($value)) {
+            return 'true' === strtolower($value);
         }
 
         if (1 === preg_match('/^\\d+$/', $value)) {
@@ -143,7 +144,7 @@ class ForProperties
         }
 
         // float
-        if (1 === preg_match('/^[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?$/', $value)) {
+        if (1 === preg_match('/^[-+]?\d*[.,]?\d+([eE][-+]?\d+)?$/', $value)) {
             return (float) str_replace(',', '.', $value);
         }
 
@@ -152,6 +153,7 @@ class ForProperties
             if ('"' === $value[0] && '"' === $value[strlen($value) - 1]) {
                 return substr($value, 1, -1);
             }
+
             if ("'" === $value[0] && "'" === $value[strlen($value) - 1]) {
                 return substr($value, 1, -1);
             }
