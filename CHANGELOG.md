@@ -1,5 +1,14 @@
 # properties - Changelog
 
+## Version 1.3.2 - 23.04.2023
+
+* Code-Quality - AddOn-Code überarbeitet mit REDAXO-Coding Standards (2.1.2) + rexstan (1.0.111) + rexfactor (0.1.7)
+* Lineendings CRLF -> LF
+* Update .gitignore
+* Create .gitattributes
+* Create .editorconfig
+* PHP min 7.4 in package.yml
+
 ## Version 1.3.1 - 10.02.2023
 
 * PHP-Code mit aktuellen REDAXO-Coding-Standards überarbeitet (https://friendsofredaxo.github.io/tricks/development/editor-vscode)
