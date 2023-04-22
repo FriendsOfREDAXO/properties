@@ -1,7 +1,7 @@
 package: properties
-version: "1.3.1"
-author: Friends Of REDAXO
-supportpage: https://github.com/FriendsOfREDAXO/properties
+version: 1.3.2
+author: 'Friends Of REDAXO'
+supportpage: 'https://github.com/FriendsOfREDAXO/properties'
 
 # Durch den Eintrag load: early werden die Properties auch für (fast) alle Addons verfügbar
 # Einfach die nächste Zeile auskommentieren
@@ -19,6 +19,6 @@ pages:
   system/properties: { title: "translate:properties" }
 
 requires:
-  redaxo: "^5.8" # benötigt mindestens REDAXO 5.8
   php:
-    version: ">=7.3, <8.3" # benötigt mindestens PHP 7.3
+    version: '>=7.4, <8.3' # benötigt mindestens PHP 7.4
+  redaxo: '^5.8' # benötigt mindestens REDAXO 5.8
