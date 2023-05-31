@@ -1,5 +1,14 @@
 # properties - Changelog
 
+## Version 1.3.3 - xx.06.2023
+
+* Anpassung für AddOn `aceeditor`
+* Width der Textarea in den Einstellungen auf 100%, Height auf 500 gesetzt
+
+### Bigfixes
+
+* Fehlendes `</div>` in den Einstellungen hinzugefügt
+
 ## Version 1.3.2 - 23.04.2023
 
 * Code-Quality - AddOn-Code überarbeitet mit REDAXO-Coding Standards (2.1.2) + rexstan (1.0.111) + rexfactor (0.1.7)
