@@ -71,8 +71,9 @@ $html = '
     <header class="panel-heading collapsed" data-toggle="collapse" data-target="#collapse-propertiesinfo">
         <div class="panel-title"><i class="rex-icon rex-icon-info"></i> ' . $addon->i18n('properties_config_title_help') . '</div>
     </header>
-<div id="collapse-propertiesinfo" class="panel-collapse collapse">
-    <div class="panel-body" style="background-color:#fff;">' . $hilfetext . '</div>
+    <div id="collapse-propertiesinfo" class="panel-collapse collapse">
+        <div class="panel-body" style="background-color:#fff;">' . $hilfetext . '</div>
+    </div>
 </div>
 ';
 
@@ -88,7 +89,7 @@ $formElements = [];
 $n = [];
 
 $n['label'] = '<label for="properties_settings">' . htmlspecialchars_decode($addon->i18n('config_properties_settings')) . '</label>';
-$n['field'] = '<textarea class="form-control codemirror" data-codemirror-mode="text/x-ini" rows="25" id="properties_settings" name="settings[properties_settings]">' . $Values['properties_settings'] . '</textarea>';
+$n['field'] = '<textarea class="form-control codemirror" width="100%" height="500" data-codemirror-mode="text/x-ini" aceeditor-mode="ini" rows="15" id="properties_settings" name="settings[properties_settings]">' . $Values['properties_settings'] . '</textarea>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
