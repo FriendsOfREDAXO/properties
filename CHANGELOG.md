@@ -1,6 +1,6 @@
 # properties - Changelog
 
-## Version 1.3.3 - xx.06.2023
+## Version 1.3.3 - 04.06.2023
 
 * Anpassung für AddOn `aceeditor`
 * Width der Textarea in den Einstellungen auf 100%, Height auf 500 gesetzt
