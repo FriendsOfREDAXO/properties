@@ -20,6 +20,12 @@ final class ForProperties
     /** @var string */
     private const SETPREFIX = '';
 
+    /** @var array<int|string, string> */
+    private static $_msg = [];
+
+    /** @var array<int|string, bool> */
+    private static $_duplicate = [];
+
     /**
      * Set properties.
      * @param array<int|string, string> $_settings_array
@@ -29,49 +35,59 @@ final class ForProperties
     public static function setProperties(array $_settings_array): array
     {
         $_prefix = '';
-        $_msg = [];
-        $_duplicate = [];
 
-        foreach ($_settings_array as $_lc => $_line) {
+        foreach ($_settings_array as $_linenumber => $_line) {
             $_line = trim($_line);
 
-            if ('#' !== substr($_line, 0, 1)) { // Kommentarzeilen übergehen
-                $_work = explode(' # ', $_line); // wg. Inline-Kommentaren
-                $_set = explode('=', $_work[0]);
+            if ('#' === substr($_line, 0, 1)) { // Kommentarzeilen übergehen
+                continue;
+            }
 
-                // [Section] als Prefix
-                if ('[' === substr($_line, 0, 1) && ']' === substr($_line, -1)) {
-                    $_prefix = trim(substr($_line, 1, -1));
-                    continue;
-                }
+            $_work = explode(' # ', $_line); // wg. Inline-Kommentaren
+            $_set = explode('=', $_work[0]);
 
-                // PREFIX = als Prefix
-                if ('PREFIX' === trim($_set[0]) || 'prefix' === trim($_set[0])) {
-                    $_prefix = trim($_set[1]);
-                    continue;
-                }
+            // [Section] als Prefix
+            if ('[' === substr($_line, 0, 1) && ']' === substr($_line, -1)) {
+                $_prefix = trim(substr($_line, 1, -1));
+                continue;
+            }
 
-                // Set Property
-                if (count($_set) > 1) {
-                    $_key = trim($_set[0]);
-                    $_val = trim($_set[1]);
-                    if (!rex::hasProperty($_prefix . $_key) && !rex::hasProperty(self::SETPREFIX . $_prefix . $_key) && !isset($_duplicate[self::SETPREFIX . $_prefix . $_key])) {
-                        if (count($_set) > 2) {
-                            unset($_set[0]);
-                            $_val = trim(implode('=', $_set));
-                        }
+            // PREFIX = als Prefix
+            if ('PREFIX' === trim($_set[0]) || 'prefix' === trim($_set[0])) {
+                $_prefix = trim($_set[1]);
+                continue;
+            }
 
-                        rex::setProperty(self::SETPREFIX . $_prefix . $_key, self::castToType($_val));
-                    } else {
-                        $_msg[] = rex_i18n::msg('properties_linecount') . ' ' . ((int) $_lc + 1) . ': ' . $_key . ' = ' . htmlspecialchars($_val) . ' (Section/PREFIX = ' .$_prefix . ')';
-                    }
-
-                    $_duplicate[self::SETPREFIX . $_prefix . $_key] = true;
-                }
+            // Set Property
+            if (count($_set) > 1) {
+                self::setProperty($_set, $_prefix, (int) $_linenumber);
+                self::$_duplicate[self::SETPREFIX . $_prefix . trim($_set[0])] = true;
             }
         }
 
-        return $_msg;
+        return self::$_msg;
+    }
+
+    /**
+     * Set property.
+     * @param array<int|string, string> $_set
+     * @api
+     */
+    public static function setProperty(array $_set, string $_prefix, int $_linenumber): void
+    {
+        $_key = trim($_set[0]);
+        $_val = trim($_set[1]);
+
+        if (!rex::hasProperty($_prefix . $_key) && !rex::hasProperty(self::SETPREFIX . $_prefix . $_key) && !isset(self::$_duplicate[self::SETPREFIX . $_prefix . $_key])) {
+            if (count($_set) > 2) {
+                unset($_set[0]);
+                $_val = trim(implode('=', $_set));
+            }
+
+            rex::setProperty(self::SETPREFIX . $_prefix . $_key, self::castToType($_val));
+        } else {
+            self::$_msg[] = rex_i18n::msg('properties_linecount') . ' ' . ($_linenumber + 1) . ': ' . $_key . ' = ' . htmlspecialchars($_val) . ' (Section/PREFIX = ' . $_prefix . ')';
+        }
     }
 
     /**
@@ -83,7 +99,7 @@ final class ForProperties
     {
         $addon = rex_addon::get('properties');
 
-        $_settings_array = explode("\n", str_replace("\r", '', ''.$addon->getConfig('properties_settings')));
+        $_settings_array = explode("\n", str_replace("\r", '', '' . $addon->getConfig('properties_settings')));
 
         $_prefix = 'no_prefix';
         $_out = [];
@@ -130,15 +146,13 @@ final class ForProperties
     public static function castToType(string $value)
     {
         $value = trim($value);
+
         // bool
-        if ('true' === strtolower($value)) {
-            return 'true' === strtolower($value);
+        if ('true' === strtolower($value) || 'false' === strtolower($value)) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
-        if ('false' === strtolower($value)) {
-            return 'true' === strtolower($value);
-        }
-
+        // integer
         if (1 === preg_match('/^\\d+$/', $value)) {
             return (int) $value;
         }

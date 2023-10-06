@@ -27,7 +27,7 @@ $csrfToken = rex_csrf_token::factory('properties_properties');
 if ('update' === $func && !$csrfToken->isValid()) {
     echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
 } elseif ('update' === $func) {
-    $addon->setConfig(rex_post('settings', [
+    $addon->setConfig((array) rex_post('settings', [
         ['properties_settings', 'string'],
     ]));
 
@@ -39,7 +39,7 @@ $Values = [];
 $Values['properties_settings'] = $addon->getConfig('properties_settings');
 
 // Check der Properties und evtl. Warning ausgeben
-$_settings_array = explode("\n", str_replace("\r", '', ''.$Values['properties_settings']));
+$_settings_array = explode("\n", str_replace("\r", '', '' . $Values['properties_settings']));
 
 $_prefix = '';
 $_msg = [];
@@ -60,7 +60,7 @@ $formElements = [];
 $n = [];
 
 $hilfetext = '';
-$file = rex_file::get(rex_path::addon('properties') .'README.md');
+$file = rex_file::get(rex_path::addon('properties') . 'README.md');
 if (null !== $file) {
     $parser = rex_markdown::factory();
     $hilfetext = $parser->parse($file);
