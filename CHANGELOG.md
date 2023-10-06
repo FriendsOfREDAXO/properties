@@ -1,11 +1,16 @@
 # properties - Changelog
 
+## Version 1.3.4 - 06.10.2023
+
+* Code-Quality - AddOn-Code überarbeitet mit REDAXO-Coding Standards (2.3.0) + rexstan (1.0.138) + rexfactor (0.1.17)
+  * Level 9, REDAXO SuperGlobals, Bleeding-Edge, Strict-Mode, Strict-Mode, PHPUnit, phpstan-dba, cognitive complexity, report mixed, dead code
+
 ## Version 1.3.3 - 04.06.2023
 
 * Anpassung für AddOn `aceeditor`
 * Width der Textarea in den Einstellungen auf 100%, Height auf 500 gesetzt
 
-### Bigfixes
+### Bugfixes
 
 * Fehlendes `</div>` in den Einstellungen hinzugefügt
 
