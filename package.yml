@@ -20,5 +20,5 @@ pages:
 
 requires:
   php:
-    version: '>=7.4, <8.3' # benötigt mindestens PHP 7.4
+    version: '>=7.4, <9' # benötigt mindestens PHP 7.4
   redaxo: '^5.8' # benötigt mindestens REDAXO 5.8
