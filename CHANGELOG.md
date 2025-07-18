@@ -1,5 +1,12 @@
 # properties - Changelog
 
+## Version 1.3.5 - 18.07.2025
+
+* Update LICENSE @tyrant88
+* PHP Maximalversion auf 9 gesetzt @aeberhard
+* Code-Quality - AddOn-Code überarbeitet mit REDAXO-Coding Standards (2.15.0) + rexstan (2.0.18) + rexfactor (0.1.24) @aeberhard
+  * Level 10, REDAXO SuperGlobals, Bleeding-Edge, Strict-Mode, Strict-Mode, PHPUnit, phpstan-dba, cognitive complexity, report mixed, dead code
+
 ## Version 1.3.4 - 06.10.2023
 
 * Code-Quality - AddOn-Code überarbeitet mit REDAXO-Coding Standards (2.3.0) + rexstan (1.0.138) + rexfactor (0.1.17)
