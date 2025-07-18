@@ -99,7 +99,12 @@ final class ForProperties
     {
         $addon = rex_addon::get('properties');
 
-        $_settings_array = explode("\n", str_replace("\r", '', '' . $addon->getConfig('properties_settings')));
+        $settings_string = $addon->getConfig('properties_settings', '');
+        if (!is_string($settings_string)) {
+            $settings_string = '';
+        }
+
+        $_settings_array = explode("\n", str_replace("\r", '', $settings_string));
 
         $_prefix = 'no_prefix';
         $_out = [];

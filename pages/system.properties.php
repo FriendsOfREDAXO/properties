@@ -34,16 +34,21 @@ if ('update' === $func && !$csrfToken->isValid()) {
     echo rex_view::success($addon->i18n('config_saved'));
 }
 
-// Config-Werte bereitstellen
-$Values = [];
-$Values['properties_settings'] = $addon->getConfig('properties_settings');
-
 // Check der Properties und evtl. Warning ausgeben
-$_settings_array = explode("\n", str_replace("\r", '', '' . $Values['properties_settings']));
+$settings_string = $addon->getConfig('properties_settings', '');
+if (!is_string($settings_string)) {
+    $settings_string = '';
+}
+
+$_settings_array = explode("\n", str_replace("\r", '', $settings_string));
 
 $_prefix = '';
 $_msg = [];
 $_duplicate = [];
+
+// Config-Werte bereitstellen
+$Values = [];
+$Values['properties_settings'] = $settings_string;
 
 // Properties setzen
 $_msg = ForProperties::setProperties($_settings_array);
