@@ -78,7 +78,7 @@ $html = '
         <div class="panel-title"><i class="rex-icon rex-icon-info"></i> ' . $addon->i18n('properties_config_title_help') . '</div>
     </header>
     <div id="collapse-propertiesinfo" class="panel-collapse collapse">
-        <div class="panel-body" style="background-color:#fff;">' . $hilfetext . '</div>
+        <div class="rex-docs"><article class="rex-docs-content">' . $hilfetext . '</article></div>
     </div>
 </div>
 ';
