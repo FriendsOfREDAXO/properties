@@ -1,5 +1,10 @@
 # properties - Changelog
 
+## Version 1.3.7 - 27.01.2026
+
+* Fix für Darkmode bei Anzeige der README.md
+* Kommentar in package.yml angepasst
+
 ## Version 1.3.6 - 27.01.2026
 
 * README.md erweitert
