@@ -1,5 +1,12 @@
 # properties - Changelog
 
+## Version 1.3.6 - 27.01.2026
+
+* README.md erweitert
+* PHP Minimalversion auf 8.0 gesetzt @aeberhard
+* Code-Quality - AddOn-Code überarbeitet mit REDAXO-Coding Standards (2.19.0) + rexstan (3.0.2) + rexfactor (0.1.26) @aeberhard
+  * Level 10, REDAXO SuperGlobals, Bleeding-Edge, Strict-Mode, Strict-Mode, PHPUnit, phpstan-dba, cognitive complexity, report mixed, dead code
+
 ## Version 1.3.5 - 18.07.2025
 
 * Update LICENSE @tyrant88

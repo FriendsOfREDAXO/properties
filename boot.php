@@ -7,6 +7,8 @@ namespace FriendsOfRedaxo\ForProperties;
 use rex_addon;
 use rex_be_controller;
 
+use function is_string;
+
 // REDAXO-Properties setzen
 
 $addon = rex_addon::get('properties');

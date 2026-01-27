@@ -153,3 +153,96 @@ if (count($_imagelist) < rex::getProperty('be.minimumGalleryPics')) {
 * Properties im CamelCase notieren -> https://en.wikipedia.org/wiki/Camel_case
 * Es sind auch mehrere PREFIXe/Sections zur Gruppierung von Properties möglich
 * Durch den Eintrag **load: early** in der package.yml sind die Properties auch in (fast) allen AddOns verfügbar
+
+## Zugriff auf alle definierten Properties
+
+Mit der Function `getAllProperties()` bekommt man ein Array mit allen Properties zurück geliefert.
+
+```php
+<?php
+var_dump(\FriendsOfRedaxo\ForProperties\ForProperties::getAllProperties());
+?>
+```
+
+**Beispiel-Properties**
+
+```ini
+[test.]
+server = Server
+serverName = ServerName
+        
+# Einstellungen für den News-Bereich                                  Zugriff im Modul/Template
+[news.]
+listLimit = 10       # Anzahl Teaser-Einträge für die Startseite      rex::getProperty('news.listLimit')
+detailArticle = 123  # Artikel-ID für die News-Anzeige                rex::getProperty('news.detailArticle')
+        
+# Diverse Artikel-ID's
+[id.]
+search = 1234        # Artikel-ID für die Suche                       rex::getProperty('id.search')
+basket = 456         # Artikel-ID für den Warenkorb                   rex::getProperty('id.basket')
+        
+[test.]
+1 = Text
+2 = 1
+3 = ,234
+4 = 1,234
+5 = 1.234
+6 = "asdf"df
+7 = '"asdf"'
+8 = true
+9 = FALSE
+10 = {"erstens": 1, "zweitens": 2}
+```
+
+**Beispiel-Result von getAllProperties()**
+
+```php
+array(3) {
+  ["test."]=>
+  array(12) {
+    ["server"]=>
+    string(6) "Server"
+    ["serverName"]=>
+    string(10) "ServerName"
+    [1]=>
+    string(4) "Text"
+    [2]=>
+    int(1)
+    [3]=>
+    float(0.234)
+    [4]=>
+    float(1.234)
+    [5]=>
+    float(1.234)
+    [6]=>
+    string(8) ""asdf"df"
+    [7]=>
+    string(6) ""asdf""
+    [8]=>
+    bool(true)
+    [9]=>
+    bool(false)
+    [10]=>
+    array(2) {
+      ["erstens"]=>
+      int(1)
+      ["zweitens"]=>
+      int(2)
+    }
+  }
+  ["news."]=>
+  array(2) {
+    ["listLimit"]=>
+    int(10)
+    ["detailArticle"]=>
+    int(123)
+  }
+  ["id."]=>
+  array(2) {
+    ["search"]=>
+    int(1234)
+    ["basket"]=>
+    int(456)
+  }
+}
+```

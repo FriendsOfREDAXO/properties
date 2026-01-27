@@ -9,7 +9,10 @@ use rex_addon;
 use rex_i18n;
 
 use function count;
+use function is_string;
 use function strlen;
+
+use const FILTER_VALIDATE_BOOLEAN;
 
 /**
  * ForProperties.
@@ -137,7 +140,6 @@ final class ForProperties
                 $_val = trim($_set[1]);
                 $_out[$_prefix][$_key] = self::castToType($_val);
             }
-
         }
 
         return $_out;

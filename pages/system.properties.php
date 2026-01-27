@@ -14,6 +14,8 @@ use rex_path;
 use rex_url;
 use rex_view;
 
+use function is_string;
+
 $addon = rex_addon::get('properties');
 
 $content = '';
@@ -27,9 +29,8 @@ $csrfToken = rex_csrf_token::factory('properties_properties');
 if ('update' === $func && !$csrfToken->isValid()) {
     echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
 } elseif ('update' === $func) {
-    $addon->setConfig((array) rex_post('settings', [
-        ['properties_settings', 'string'],
-    ]));
+    $settings_string = rex_post('settings', 'array')['properties_settings'];
+    $addon->setConfig('properties_settings', $settings_string);
 
     echo rex_view::success($addon->i18n('config_saved'));
 }
